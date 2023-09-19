@@ -77,7 +77,7 @@ public class HashTable {
 				fi = i * i; // Replace 0 with your code
 
 			}
-			addr = (H[orig_addr] + fi ) % hsize; // Replace 0 with your code
+			addr = (orig_addr + fi ) % hsize; // Replace 0 with your code
 
 			i++;
 		}
