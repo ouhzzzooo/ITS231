@@ -1,16 +1,5 @@
-package Lab3;
+package Lab6;
 
-
-/**
- * The {@code SList} class represents a singly linked list that can hold
- * elements of a generic type {@code T}. It provides methods for adding elements
- * to the beginning and end of the list, adding elements at a specified index,
- * removing elements from the beginning and end of the list, removing elements
- * at a specified index, checking if the list is empty, obtaining the size of
- * the list, and searching for elements within the list.
- *
- * @param <T> The type of elements stored in the singly linked list.
- */
 public class SList<T> {
 	/**
 	 * The number of elements currently stored in the singly linked list.
@@ -55,19 +44,14 @@ public class SList<T> {
 	 */
 	void addLast(T element) {
 		// Ex.1 complete the method
-
-        Node<T> newNode = new Node<T>(element);
-
-        if (size == 0){
-            first = newNode;
-            last = null;
-            size++;
-        }
-        else {
-            last.next = newNode;
-            last = newNode;
-            size++;
-        }
+		if (size == 0) {
+			addFirst(element);
+		} else {
+			Node<T> newNode = new Node<T>(element);
+			last.next = newNode;
+			last = newNode;
+			size++;
+		}
 
 	}
 
@@ -82,28 +66,20 @@ public class SList<T> {
 	 */
 	void addAtIndex(int index, T element) {
 		// Ex.2 complete the method
-
-        Node<T> newNode = new Node<T>(element);
-
-        if (index == 0) {
-            newNode.next = first;
-            first = newNode;
-            size++;
-        }
-        else if (index >= size) {
-            last.next = newNode;
-            last = newNode;
-            size++;
-        }
-        else {
-            Node<T> temp = first;
-            for (int i = 0; i < index - 1; i++) {
-                temp = temp.next;
-            }
-            newNode.next = temp.next;
-            temp.next = newNode;
-            size++;
-        }
+		if (index == 0) {
+			addFirst(element);
+		} else if (index >= size) {
+			addLast(element);
+		} else {
+			Node<T> newNode = new Node<T>(element);
+			Node<T> temp = first;
+			for (int i = 0; i < index - 1; i++) {
+				temp = temp.next;
+			}
+			newNode.next = temp.next;
+			temp.next = newNode;
+			size++;
+		}
 	}
 
 	/**
@@ -132,28 +108,19 @@ public class SList<T> {
 	 */
 	T removeLast() {
 		// Ex.3 complete the method
-        if (size == 0){
-            return null;
-        }
-        else if (size == 1) {
-            Node<T> temp = first;
-            first = null;
-            last = null;
-            return temp.element;
-        }
-        else {
-            Node<T> temp = first;
-            for (int i = 0; i < size - 2; i++) {
-                temp = temp.next;
-            }
-            last = temp;
-			Node<T> originalLast = temp.next;
-            temp.next = null;
+		if (size == 0) {
+			return null;
+		} else {
+			Node<T> temp = first;
+			for (int i = 0; i < size - 2; i++) {
+				temp = temp.next;
+			}
+			last = temp;
+			Node<T> oldLast = temp.next;
+			last.next = null;
 			size--;
-            return originalLast.element;
-
-        }
-		
+			return oldLast.element;
+		}
 	}
 
 	/**
@@ -165,10 +132,9 @@ public class SList<T> {
 	 */
 	T removeAtIndex(int index) {
 		// Ex.4 complete the method
-        if (size == 0) {
-            return null;
-        }
-		else {
+		if (index > size - 1) {
+			return null;
+		} else {
 			Node<T> temp = first;
 			for (int i = 0; i < index - 1; i++) {
 				temp = temp.next;
@@ -177,9 +143,8 @@ public class SList<T> {
 			temp.next = remove.next;
 			remove.next = null;
 			size--;
-            return remove.element;
-            
-        }
+			return remove.element;
+		}
 	}
 
 	/**
@@ -197,8 +162,7 @@ public class SList<T> {
 		while (i < size) {
 			if (temp.element == item) {
 				return i;
-			}
-			else {
+			} else {
 				temp = temp.next;
 				i++;
 			}
