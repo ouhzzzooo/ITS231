@@ -34,13 +34,13 @@ public class BT<T> {
 		// Exercise 1 ////////////////
 		if (root == null) {
 		// Replace the following statement with your code.
-			return -1;
+			return 0;
 		} else if (isLeaf(root)) {
 		// Replace the following statement with your code.
-			return -1;
+			return 1;
 		} else {	
 		// Replace the following statement with your code.
-			return -1;
+			return 1 + Math.max(findHeight(root.left), findHeight(root.right));
 		}		
 	}
 
@@ -81,6 +81,13 @@ public class BT<T> {
 	/* Inorder traversal from a subtree */
 	protected void inorder(BTNode<T> root) {
 		// Exercise 2 (a) Complete this method
+
+		if (root == null) {
+			return ;
+		}
+		inorder(root.left);
+		System.out.print(root.element + " ");
+		inorder(root.right);
 	}
 
 	/* Postorder traversal from the root */
@@ -92,6 +99,13 @@ public class BT<T> {
 	protected void postorder(BTNode<T> root) {
 		// Exercise 2 (b) Complete this method
 
+		if (root == null) {
+			return;
+		}
+		postorder(root.left);
+		postorder(root.right);
+		System.out.print(root.element + " ");
+		
 	}
 
 	/* Preorder traversal from the root */
@@ -118,13 +132,35 @@ public class BT<T> {
 		Stack<BTNode<T>> S = new Stack<BTNode<T>>();
 		S.push(root);
 		//insert your code here
+		BTNode<T> tmp;
+		while(!S.isEmpty()){
+			tmp = S.pop();
+			if (tmp.right != null) {
+				S.push(tmp.right);
+			}
+			if (tmp.left != null) {
+				S.push(tmp.left);
+			}
+			System.out.print(tmp.element + " ");
+		}
 	}
 
 	void PrintBFT() {
 		// Exercise 4 ////////////////
 		Queue<BTNode<T>> Q = new Queue<BTNode<T>>();
 		Q.enqueue(root);
+		BTNode<T> tmp;
 		//insert your code here
+		while(!Q.isEmpty()) {
+			tmp = Q.dequeue();
+			if (tmp.left != null) {
+				Q.enqueue(tmp.left);
+			}
+			if (tmp.right != null) {
+				Q.enqueue(tmp.right);
+			}
+			System.out.print(tmp.element + " ");
+		}
 	}
 
 	static boolean hasHigherPriority(String sign1, String sign2) {
@@ -169,23 +205,26 @@ public class BT<T> {
         	// Case 1: if item it is an open parenthesis
         	if (item.equals("(")) {
         		//add your code here
+
+				parent.push(new BTNode<String>(item));
 		
         	} 
         	else if (isOperator(item)){
         		BTNode<String> temp = new BTNode<String>(item);
         		if (parent.isEmpty()) { // stack is empty
         			// add your code here
+					parent.push(temp);
         		}
         		else {// stack is not empty
               
         			if(hasHigherPriority(item, parent.peek().element)) {  
         				// add your code here
-            		
+						parent.push(temp);
             		
         			}
         			else {
         				// add your code here
-
+						
         			}
         		}
         	}
@@ -203,6 +242,7 @@ public class BT<T> {
         	else {// Case 4: it is not an operator
         		BT<String> newTree = new BT<String>(item);
         		// add your code here
+				BTStack.push(newTree);
         	}
         	i++;
         }
@@ -212,6 +252,7 @@ public class BT<T> {
         	BT<String> Lsubtree = BTStack.pop();
         	BT<String> newBT = new BT<String>(root, Lsubtree, Rsubtree);
         	// add your code here
+			BTStack.push(newBT);
         }
         return BTStack.pop();
     }
