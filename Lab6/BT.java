@@ -224,6 +224,11 @@ public class BT<T> {
         			}
         			else {
         				// add your code here
+					BTNode<String> root = parent.pop();
+					BT<String> Rsubtree = BTStack.pop();
+					BT<String> Lsubtree = BTStack.pop();
+					BT<String> newBT = new BT(root, Lsubtree, Rsubtree);
+					BTStack.push(newBT);
 						
         			}
         		}
